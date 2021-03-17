@@ -11,11 +11,10 @@ namespace SCM_Convert.Repository
     {
         Comm comm = new Comm();
 
-        public void Insert_SUB01_0000()
+        public void Insert_SUB01_0000(string sSql)
         {
-            string sSql = " SELECT * FROM SUB01_0000 ";
+            //string sSql = " SELECT * FROM SUB01_0000 ";
             DataTable dTmp = comm.Get_DataTable(sSql);
-            //List<SUB01_0000> SUB010A =new List<SUB01_0000>();
             string sCol = comm.Get_DBColumn(dTmp);
             comm.Insert_SaveDB(sCol, "SUB01_0000", dTmp);
         }
@@ -26,6 +25,20 @@ namespace SCM_Convert.Repository
             DataTable dTmp = comm.Get_DataTable(sSql);
             string sCol = comm.Get_DBColumn(dTmp);
             comm.Insert_SaveDB(sCol, "SUB02_0000",dTmp);
+        }
+        public void Insert_SUT01_0000()
+        {
+            string sSql = " SELECT * SUT01_0000";
+            DataTable dTmp = comm.Get_DataTable(sSql);
+            string sCol = comm.Get_DBColumn(dTmp);
+            comm.Insert_SaveDB(sCol, "SUB02_0000", dTmp);
+        }
+        public void Insert_SUT01_0100()
+        {
+            string sSql = " SELECT * SUT01_0100";
+            DataTable dTmp = comm.Get_DataTable(sSql);
+            string sCol = comm.Get_DBColumn(dTmp);
+            comm.Insert_SaveDB(sCol, "SUB02_0000", dTmp);
         }
     }
 }

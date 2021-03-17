@@ -9,6 +9,8 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SCM_Convert.Repository;
+using System.Diagnostics;
+using LinqToExcel;
 
 namespace SCM_Convert
 {
@@ -16,6 +18,9 @@ namespace SCM_Convert
     {
         Comm comm = new Comm();
         SETDB sETDB = new SETDB();
+        InfoResponse response = new InfoResponse();
+
+        string sPath = Application.StartupPath;
         public Form1()
         {
             InitializeComponent();
@@ -25,6 +30,8 @@ namespace SCM_Convert
         {
             comm.GET_DBComm = "Data Source=DESKTOP-JCONT\\SQLEXPRESS;Initial Catalog=SUPDB;User ID=sa;Password=root;Pooling=True";
             comm.SET_DBComm = "Data Source=DESKTOP-JCONT\\SQLEXPRESS;Initial Catalog=SUP;User ID=sa;Password=root;Pooling=True";
+
+           
         }
 
         private void btn_Comm_Click(object sender, EventArgs e)
@@ -52,22 +59,39 @@ namespace SCM_Convert
         {
             string sSql = " DELETE FROM SUT01_0000 WHERE pur_status='00' ";
             comm.Del_DBTable(sSql);
-            sETDB.Insert_SUB01_0000();
+            sETDB.Insert_SUT01_0000();
         }
 
         private void Btn_Details_Click(object sender, EventArgs e)
         {
             string sSql = " DELETE SUT01_0100 WHERE (pur_code in (SELECT pur_code FROM SUT01_0000 WHERE pur_status ='00')) ";
             comm.Del_DBTable(sSql);
-            sETDB.Insert_SUB01_0000();
+            sETDB.Insert_SUT01_0100();
         }
 
         private void Btn_ProData_Click(object sender, EventArgs e)
         {
-            string sSql = " TRUNCATE TABLE SUB01_0000 ";
-            comm.Del_DBTable(sSql);
-            sETDB.Insert_SUB01_0000();
+            //設定EXCEL
+            var exc = new ExcelQueryFactory(sPath + "\\setting.xlsx");
+
+            var sQuery = from x in exc.Worksheet<Setting>("setting")
+                         where x.Table == "SUB01_0000"
+                         select x;
+            foreach (var name in sQuery)
+            {
+                if (name.InitialCtr == null || name.changeCtr == null) { response.Message = "設定檔內容有缺無法更新";  break; }
+                comm.Del_DBTable(name.InitialCtr);
+                sETDB.Insert_SUB01_0000(name.changeCtr);
+            }
+            //string sSql = " TRUNCATE TABLE SUB01_0000 ";
+            //comm.Del_DBTable(sSql);
+            //sETDB.Insert_SUB01_0000();
         }
 
+        private void Btn_setting_Click(object sender, EventArgs e)
+        {
+            //打開設定檔案
+            Process.Start(sPath + "\\setting.xlsx");
+        }
     }
 }

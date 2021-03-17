@@ -19,4 +19,12 @@ namespace SCM_Convert
             Message = message;
         }
     }
+    class Setting
+    {
+        public string item { get; set; }
+        public string Table { get; set; }
+        public string InitialCtr { get; set; }
+        public string changeCtr { get; set; }
+
+    }
 }
