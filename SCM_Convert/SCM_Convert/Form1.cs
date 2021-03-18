@@ -8,7 +8,6 @@ using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using SCM_Convert.Repository;
 using System.Diagnostics;
 using LinqToExcel;
 
@@ -17,10 +16,9 @@ namespace SCM_Convert
     public partial class Form1 : Form
     {
         Comm comm = new Comm();
-        SETDB sETDB = new SETDB();
         InfoResponse response = new InfoResponse();
-
         string sPath = Application.StartupPath;
+
         public Form1()
         {
             InitializeComponent();
@@ -28,7 +26,8 @@ namespace SCM_Convert
 
         private void Form1_Load(object sender, EventArgs e)
         {
-      
+            comm.GET_DBComm = "Data Source=DESKTOP-2HU7NL0\\CONT;Initial Catalog=SUPDB;User ID=sa;Password=root;Pooling=True";
+            comm.SET_DBComm = "Data Source=DESKTOP-2HU7NL0\\CONT;Initial Catalog=SUP;User ID=sa;Password=root;Pooling=True";
         }
 
         private void btn_Comm_Click(object sender, EventArgs e)
@@ -45,27 +44,74 @@ namespace SCM_Convert
             catch (Exception ex) { MessageBox.Show("無連線訊息"); }
         }
 
-        private void Btn_Sup_Click(object sender, EventArgs e)
-        {
-            string sSql = " TRUNCATE TABLE SUB02_0000 ";
-            comm.Del_DBTable(sSql);
-            sETDB.Insert_SUB02_0000();
-        }
-
+        /// <summary>
+        /// 採購單頭檔按鈕
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_SigleHead_Click(object sender, EventArgs e)
         {
-            string sSql = " DELETE FROM SUT01_0000 WHERE pur_status='00' ";
-            comm.Del_DBTable(sSql);
-            sETDB.Insert_SUT01_0000();
+            //設定EXCEL
+            var exc = new ExcelQueryFactory(sPath + "\\setting.xlsx");
+
+            var sQuery = from x in exc.Worksheet<Setting>("setting")
+                         where x.Table == "SUT01_0000"
+                         select x;
+            foreach (var name in sQuery)
+            {
+                if (name.InitialCtr == null || name.changeCtr == null) { response.Message = "設定檔內容有缺無法更新"; break; }
+                comm.Del_DBTable(name.InitialCtr);
+                comm.Delete_PurCode(name.Table , name.changeCtr); //重複刪除
+                comm.Insert_SaveDB(name.Table, name.changeCtr);
+            }
         }
 
+        /// <summary>
+        /// 採購單身檔按鈕
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Details_Click(object sender, EventArgs e)
         {
-            string sSql = " DELETE SUT01_0100 WHERE (pur_code in (SELECT pur_code FROM SUT01_0000 WHERE pur_status ='00')) ";
-            comm.Del_DBTable(sSql);
-            sETDB.Insert_SUT01_0100();
+            //設定EXCEL
+            var exc = new ExcelQueryFactory(sPath + "\\setting.xlsx");
+
+            var sQuery = from x in exc.Worksheet<Setting>("setting")
+                         where x.Table == "SUT01_0100"
+                         select x;
+            foreach (var name in sQuery)
+            {
+                if (name.InitialCtr == null || name.changeCtr == null) { response.Message = "設定檔內容有缺無法更新"; break; }
+                comm.Del_DBTable(name.InitialCtr);
+                comm.Insert_SaveDB(name.Table, name.changeCtr);
+            }
+        }
+        /// <summary>
+        /// 供應商按鈕
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Btn_Sup_Click(object sender, EventArgs e)
+        {
+            //設定EXCEL
+            var exc = new ExcelQueryFactory(sPath + "\\setting.xlsx");
+
+            var sQuery = from x in exc.Worksheet<Setting>("setting")
+                         where x.Table == "SUB02_0000"
+                         select x;
+            foreach (var name in sQuery)
+            {
+                if (name.InitialCtr == null || name.changeCtr == null) { response.Message = "設定檔內容有缺無法更新"; break; }
+                comm.Del_DBTable(name.InitialCtr);
+                comm.Insert_SaveDB(name.Table, name.changeCtr);
+            }
         }
 
+        /// <summary>
+        /// 料件檔按鈕
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_ProData_Click(object sender, EventArgs e)
         {
             //設定EXCEL
@@ -78,13 +124,15 @@ namespace SCM_Convert
             {
                 if (name.InitialCtr == null || name.changeCtr == null) { response.Message = "設定檔內容有缺無法更新";  break; }
                 comm.Del_DBTable(name.InitialCtr);
-                sETDB.Insert_SUB01_0000(name.changeCtr);
+                comm.Insert_SaveDB(name.Table, name.changeCtr);
             }
-            //string sSql = " TRUNCATE TABLE SUB01_0000 ";
-            //comm.Del_DBTable(sSql);
-            //sETDB.Insert_SUB01_0000();
         }
 
+        /// <summary>
+        /// 開啟設定檔
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_setting_Click(object sender, EventArgs e)
         {
             //打開設定檔案
