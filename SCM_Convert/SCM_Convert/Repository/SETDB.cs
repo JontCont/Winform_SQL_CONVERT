@@ -14,9 +14,10 @@ namespace SCM_Convert.Repository
         public void Insert_SUB01_0000(string sSql)
         {
             //string sSql = " SELECT * FROM SUB01_0000 ";
+            //string sCol = comm.Get_DBColumn(dTmp);
+            //comm.Insert_SaveDB(sCol, "SUB01_0000", dTmp);
             DataTable dTmp = comm.Get_DataTable(sSql);
-            string sCol = comm.Get_DBColumn(dTmp);
-            comm.Insert_SaveDB(sCol, "SUB01_0000", dTmp);
+            comm.Insert_SaveDB("SUB01_0000", dTmp);
         }
 
         public void Insert_SUB02_0000()

@@ -28,10 +28,7 @@ namespace SCM_Convert
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            comm.GET_DBComm = "Data Source=DESKTOP-JCONT\\SQLEXPRESS;Initial Catalog=SUPDB;User ID=sa;Password=root;Pooling=True";
-            comm.SET_DBComm = "Data Source=DESKTOP-JCONT\\SQLEXPRESS;Initial Catalog=SUP;User ID=sa;Password=root;Pooling=True";
-
-           
+      
         }
 
         private void btn_Comm_Click(object sender, EventArgs e)

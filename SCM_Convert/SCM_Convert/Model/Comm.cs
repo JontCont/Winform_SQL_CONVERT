@@ -10,19 +10,24 @@ namespace SCM_Convert
 {
     class Comm
     {
+        //GET_DBComm = "Data Source=DESKTOP-JCONT\\SQLEXPRESS;Initial Catalog=SUPDB;User ID=sa;Password=root;Pooling=True";
+        //SET_DBComm = "Data Source=DESKTOP-JCONT\\SQLEXPRESS;Initial Catalog=SUP;User ID=sa;Password=root;Pooling=True";
         public string SET_DBComm { get; set; }
         public string GET_DBComm { get; set; }
 
 
-        public SqlConnection Set_GetDBConnection() {
+        public SqlConnection Set_GetDBConnection()
+        {
+            GET_DBComm = "Data Source=DESKTOP-JCONT\\SQLEXPRESS;Initial Catalog=SUPDB;User ID=sa;Password=root;Pooling=True";
             SqlConnection Connect;
-            Connect = new SqlConnection(GET_DBComm) ;
+            Connect = new SqlConnection(GET_DBComm);
             Connect.Open();
             return Connect;
         }
 
         public SqlConnection Set_SetDBConnection()
         {
+            SET_DBComm = "Data Source=DESKTOP-JCONT\\SQLEXPRESS;Initial Catalog=SUP;User ID=sa;Password=root;Pooling=True";
             SqlConnection Connect;
             Connect = new SqlConnection(SET_DBComm);
             Connect.Open();
@@ -130,18 +135,40 @@ namespace SCM_Convert
         /// </summary>
         /// <param name="pSql">Select語法</param>
         /// <returns></returns>
-        public void Insert_SaveDB(string sSql, string sTable , DataTable dTmp)
+        public void Insert_SaveDB(string sSql, string sTable, DataTable dTmp)
         {
             if (dTmp.Rows.Count > 0)
             {
-                for (int x = 0; x < dTmp.Rows.Count; x++){
-                    string sStr = "INSERT INTO "+ sTable + " (" + sSql + ") VALUES(";
-                    for(int y = 0;y < dTmp.Columns.Count; y++)
+                for (int x = 0; x < dTmp.Rows.Count; x++)
+                {
+                    string sStr = "INSERT INTO " + sTable + " (" + sSql + ") VALUES(";
+                    for (int y = 0; y < dTmp.Columns.Count; y++)
                     {
                         sStr += "'" + dTmp.Rows[x][y] + "',";
                     }
                     sStr = sStr.TrimEnd(','); sStr += ")";
                     Save_DBTable(sStr);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 傳入一個SQL語法，INSERT一個DB
+        /// </summary>
+        /// <param name="pSql">Select語法</param>
+        /// <returns></returns>
+        public void Insert_SaveDB(string sTable, DataTable dTmp)
+        {
+            if (dTmp.Rows.Count > 0)
+            {
+                using (SqlBulkCopy con_db = new SqlBulkCopy(Set_SetDBConnection()))
+                {
+                    con_db.DestinationTableName = sTable;
+                    try
+                    {
+                        con_db.WriteToServer(dTmp);
+                    }
+                    catch (Exception e) { }
                 }
             }
         }
