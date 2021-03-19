@@ -39,7 +39,7 @@
             // 
             // Btn_Sup
             // 
-            this.Btn_Sup.Location = new System.Drawing.Point(111, 11);
+            this.Btn_Sup.Location = new System.Drawing.Point(139, 11);
             this.Btn_Sup.Margin = new System.Windows.Forms.Padding(2);
             this.Btn_Sup.Name = "Btn_Sup";
             this.Btn_Sup.Size = new System.Drawing.Size(79, 54);
@@ -50,7 +50,7 @@
             // 
             // Btn_SigleHead
             // 
-            this.Btn_SigleHead.Location = new System.Drawing.Point(11, 11);
+            this.Btn_SigleHead.Location = new System.Drawing.Point(39, 11);
             this.Btn_SigleHead.Margin = new System.Windows.Forms.Padding(2);
             this.Btn_SigleHead.Name = "Btn_SigleHead";
             this.Btn_SigleHead.Size = new System.Drawing.Size(79, 54);
@@ -61,7 +61,7 @@
             // 
             // Btn_Details
             // 
-            this.Btn_Details.Location = new System.Drawing.Point(11, 78);
+            this.Btn_Details.Location = new System.Drawing.Point(39, 78);
             this.Btn_Details.Margin = new System.Windows.Forms.Padding(2);
             this.Btn_Details.Name = "Btn_Details";
             this.Btn_Details.Size = new System.Drawing.Size(79, 54);
@@ -72,7 +72,7 @@
             // 
             // Btn_ProData
             // 
-            this.Btn_ProData.Location = new System.Drawing.Point(112, 78);
+            this.Btn_ProData.Location = new System.Drawing.Point(140, 78);
             this.Btn_ProData.Margin = new System.Windows.Forms.Padding(2);
             this.Btn_ProData.Name = "Btn_ProData";
             this.Btn_ProData.Size = new System.Drawing.Size(79, 54);
@@ -92,7 +92,7 @@
             // 
             // btn_Comm
             // 
-            this.btn_Comm.Location = new System.Drawing.Point(128, 288);
+            this.btn_Comm.Location = new System.Drawing.Point(157, 293);
             this.btn_Comm.Margin = new System.Windows.Forms.Padding(2);
             this.btn_Comm.Name = "btn_Comm";
             this.btn_Comm.Size = new System.Drawing.Size(63, 31);
@@ -103,7 +103,7 @@
             // 
             // Btn_setting
             // 
-            this.Btn_setting.Location = new System.Drawing.Point(127, 253);
+            this.Btn_setting.Location = new System.Drawing.Point(156, 258);
             this.Btn_setting.Margin = new System.Windows.Forms.Padding(2);
             this.Btn_setting.Name = "Btn_setting";
             this.Btn_setting.Size = new System.Drawing.Size(63, 31);
@@ -116,7 +116,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(210, 330);
+            this.ClientSize = new System.Drawing.Size(244, 330);
             this.Controls.Add(this.Btn_setting);
             this.Controls.Add(this.btn_Comm);
             this.Controls.Add(this.lMessage);

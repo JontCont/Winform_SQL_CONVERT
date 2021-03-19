@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using LinqToExcel;
+using ChangesCrack;
 
 namespace SCM_Convert
 {
@@ -26,22 +27,31 @@ namespace SCM_Convert
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            comm.GET_DBComm = "Data Source=DESKTOP-2HU7NL0\\CONT;Initial Catalog=SUPDB;User ID=sa;Password=root;Pooling=True";
-            comm.SET_DBComm = "Data Source=DESKTOP-2HU7NL0\\CONT;Initial Catalog=SUP;User ID=sa;Password=root;Pooling=True";
+            btn_Comm_Click("",e);
         }
 
         private void btn_Comm_Click(object sender, EventArgs e)
         {
+            Changes sChk = new Changes();
             string sPath = Application.StartupPath;
-            string sShow = "";
+            string sShow = ""; int index=0;
             try
             {
-                StreamReader sRead = new StreamReader(sPath + "\\StrLog.MD");
-                string sLine = sRead.ReadLine();
-                sShow += sLine;
+                StreamReader sRead = new StreamReader(sPath + "\\Logs.ini");
+                while((sShow = sRead.ReadLine()) != null)
+                {
+                    switch (index)
+                    {
+                        case 0: comm.GET_DBComm = sChk.Get_Crack(true, sShow); break;
+                        case 1: comm.SET_DBComm = sChk.Get_Crack(true, sShow); break;
+                    }
+                    index++;
+                }
+                if (comm.GET_DBComm == "" || comm.SET_DBComm == "") lMessage.Text = "ERROR-001 : 連線失敗";
+                lMessage.Text = "連線成功";
                 sRead.Close();
             }
-            catch (Exception ex) { MessageBox.Show("無連線訊息"); }
+            catch (Exception ex) { MessageBox.Show("ERROR-002 : Logs.ini遺失，無法連線"); }
         }
 
         /// <summary>
@@ -64,6 +74,7 @@ namespace SCM_Convert
                 comm.Delete_PurCode(name.Table , name.changeCtr); //重複刪除
                 comm.Insert_SaveDB(name.Table, name.changeCtr);
             }
+            lMessage.Text = "採購單頭 - 更新成功";
         }
 
         /// <summary>
@@ -85,6 +96,7 @@ namespace SCM_Convert
                 comm.Del_DBTable(name.InitialCtr);
                 comm.Insert_SaveDB(name.Table, name.changeCtr);
             }
+            lMessage.Text = "採購單身 - 更新成功";
         }
         /// <summary>
         /// 供應商按鈕
@@ -105,6 +117,7 @@ namespace SCM_Convert
                 comm.Del_DBTable(name.InitialCtr);
                 comm.Insert_SaveDB(name.Table, name.changeCtr);
             }
+            lMessage.Text = "供應商 - 更新成功";
         }
 
         /// <summary>
@@ -126,6 +139,7 @@ namespace SCM_Convert
                 comm.Del_DBTable(name.InitialCtr);
                 comm.Insert_SaveDB(name.Table, name.changeCtr);
             }
+            lMessage.Text = "料件檔 - 更新成功";
         }
 
         /// <summary>
