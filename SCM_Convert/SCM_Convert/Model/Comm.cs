@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 using Dapper;
+using System.Diagnostics;
 
 namespace SCM_Convert
 {
@@ -13,7 +14,8 @@ namespace SCM_Convert
     {
         public string SET_DBComm { get; set; }
         public string GET_DBComm { get; set; }
-
+        public string GET_Rows_Coumt { get; set; }
+        public string GET_Run_Timer { get; set; }
         /// <summary>
         /// 連線至要取得的DB
         /// </summary>
@@ -34,6 +36,18 @@ namespace SCM_Convert
         {
             SqlConnection Connect;
             Connect = new SqlConnection(SET_DBComm);
+            Connect.Open();
+            return Connect;
+        }
+
+        /// <summary>
+        /// 連線至要被更新的DB
+        /// </summary>
+        /// <returns></returns>
+        public SqlConnection Comm_TestDBConnection(string sComm)
+        {
+            SqlConnection Connect;
+            Connect = new SqlConnection(sComm);
             Connect.Open();
             return Connect;
         }
@@ -92,6 +106,24 @@ namespace SCM_Convert
         }
 
         /// <summary>
+        /// 測試連線狀態
+        /// </summary>
+        /// <param name="comm"></param>
+        /// <returns></returns>
+        public bool commDB(string comm)
+        {
+            try
+            {
+                using (SqlConnection con_db = Comm_TestDBConnection(comm))
+                {
+                    con_db.Close();
+                    return true;
+                }
+            }
+            catch{return false;}
+        }
+
+        /// <summary>
         /// 傳入一個SQL語法，INSERT一個DB
         /// </summary>
         /// <param name="pSql">Select語法</param>
@@ -101,12 +133,17 @@ namespace SCM_Convert
             DataTable dTmp = Get_DataTable(sSql);
             if (dTmp.Rows.Count > 0)
             {
+                GET_Rows_Coumt = dTmp.Rows.Count.ToString();
+                Stopwatch timer = new Stopwatch();
+                timer.Start();
                 using (SqlBulkCopy con_db = new SqlBulkCopy(Set_SetDBConnection()))
                 {
                     con_db.DestinationTableName = sTable;
                     try
                     {
                         con_db.WriteToServer(dTmp);
+                        timer.Stop();
+                        GET_Run_Timer = timer.ElapsedMilliseconds.ToString();
                     }
                     catch (Exception e) { }
                 }
@@ -122,6 +159,7 @@ namespace SCM_Convert
         {
             if (dTmp.Rows.Count > 0)
             {
+                GET_Rows_Coumt = dTmp.Rows.Count.ToString();
                 using (SqlBulkCopy con_db = new SqlBulkCopy(Set_SetDBConnection()))
                 {
                     con_db.DestinationTableName = sTable;
