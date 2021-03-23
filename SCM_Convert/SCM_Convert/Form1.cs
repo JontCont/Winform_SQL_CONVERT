@@ -12,7 +12,7 @@ using System.Diagnostics;
 using LinqToExcel;
 using ChangesCrack;
 
-namespace SCM_Convert
+namespace SCM_Convert 
 {
     public partial class Form1 : Form
     {
@@ -28,6 +28,7 @@ namespace SCM_Convert
         private void Form1_Load(object sender, EventArgs e)
         {
             btn_Comm_Click("", e);
+            System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         private void btn_Comm_Click(object sender, EventArgs e)
