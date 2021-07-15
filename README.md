@@ -6,11 +6,11 @@
 
 
 ---
-## 開放書籍
+### 開放書籍
 * 入口 : https://information9527.gitbook.io/main/
 
 
-## LINE 社群
+### LINE 社群
 <img src="QrCode.jpg" width=200 height=200 alt="LINE QR" />
 
 ---
