@@ -6,7 +6,7 @@
 
 
 ---
-### 開放書籍
+### GitBook
 * 入口 : https://information9527.gitbook.io/main/
 
 
