@@ -1,4 +1,4 @@
-#轉檔程式
+# 轉檔程式
 
 ## SQL CONVERT 簡介
 
@@ -7,11 +7,11 @@
 
 
 ---
-##*開放書籍*
+## 開放書籍
 https://information9527.gitbook.io/main/
 
 
 ## LINE 社群
-<img src="QrCode.jpeg" width=200 height=200 alt="LINE QR" />
+<img src="QrCode.jpg" width=200 height=200 alt="LINE QR" />
 
 ---
