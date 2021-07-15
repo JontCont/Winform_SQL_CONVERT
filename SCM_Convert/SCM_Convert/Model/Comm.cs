@@ -22,10 +22,16 @@ namespace SCM_Convert
         /// <returns></returns>
         public SqlConnection Set_GetDBConnection()
         {
-            SqlConnection Connect;
-            Connect = new SqlConnection(GET_DBComm);
-            Connect.Open();
-            return Connect;
+            string queryString = "waitfor delay '00:00:05'";
+            using (SqlConnection Connect = new SqlConnection(GET_DBComm))
+            {
+                Connect.Open();
+                _ = new SqlCommand(queryString, Connect)
+                {
+                    CommandTimeout = 5
+                };
+                return Connect;
+            }
         }
 
         /// <summary>

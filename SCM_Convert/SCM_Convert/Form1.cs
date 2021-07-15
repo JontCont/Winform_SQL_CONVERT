@@ -49,8 +49,8 @@ namespace SCM_Convert
                     }
                     index++;
                 }
-                if (!comm.commDB(comm.GET_DBComm) || !comm.commDB(comm.SET_DBComm)) lMessage.Text = "ERROR-001 : 連線失敗";
                 lMessage.Text = "連線成功";
+                if (!comm.commDB(comm.GET_DBComm) || !comm.commDB(comm.SET_DBComm)) lMessage.Text = "ERROR-001 : 連線失敗";
                 sRead.Close();
             }
             catch (Exception) { lMessage.Text = "ERROR-002 : Logs.ini遺失，無法連線"; }
@@ -63,20 +63,9 @@ namespace SCM_Convert
         /// <param name="e"></param>
         private void Btn_SigleHead_Click(object sender, EventArgs e)
         {
-            //設定EXCEL
-            var exc = new ExcelQueryFactory(sPath + "\\setting.xlsx");
-
-            var sQuery = from x in exc.Worksheet<Setting>("setting")
-                         where x.Table == "SUT01_0000"
-                         select x;
-            foreach (var name in sQuery)
-            {
-                if (name.InitialCtr == null || name.changeCtr == null) { lMessage.Text = "設定檔內容有缺無法更新"; break; }
-                comm.Del_DBTable(name.InitialCtr);
-                comm.Delete_PurCode(name.Table, name.changeCtr); //重複刪除
-                comm.Insert_SaveDB(name.Table, name.changeCtr);
-            }
-            lMessage.Text = "採購單頭 - 更新成功\n-完成豪秒數 : " + comm.GET_Run_Timer + "\n-共" + comm.GET_Rows_Coumt +"筆"; 
+            //執行excel中的語法。
+            //ExcelQueryByUpdateData("SUT01_0000");
+            ExcelQueryByUpdateData(Tag.ToString());//可使用Tag方式執行。
         }
 
         /// <summary>
@@ -86,19 +75,8 @@ namespace SCM_Convert
         /// <param name="e"></param>
         private void Btn_Details_Click(object sender, EventArgs e)
         {
-            //設定EXCEL
-            var exc = new ExcelQueryFactory(sPath + "\\setting.xlsx");
-
-            var sQuery = from x in exc.Worksheet<Setting>("setting")
-                         where x.Table == "SUT01_0100"
-                         select x;
-            foreach (var name in sQuery)
-            {
-                if (name.InitialCtr == null || name.changeCtr == null) { lMessage.Text = "設定檔內容有缺無法更新"; break; }
-                comm.Del_DBTable(name.InitialCtr);
-                comm.Insert_SaveDB(name.Table, name.changeCtr);
-            }
-            lMessage.Text = "採購單身 - 更新成功\n-完成豪秒數 : " + comm.GET_Run_Timer + "\n-共" + comm.GET_Rows_Coumt + "筆";
+            //執行excel中的語法。
+            ExcelQueryByUpdateData("SUT01_0100");
         }
         /// <summary>
         /// 供應商按鈕
@@ -107,19 +85,8 @@ namespace SCM_Convert
         /// <param name="e"></param>
         private void Btn_Sup_Click(object sender, EventArgs e)
         {
-            //設定EXCEL
-            var exc = new ExcelQueryFactory(sPath + "\\setting.xlsx");
-
-            var sQuery = from x in exc.Worksheet<Setting>("setting")
-                         where x.Table == "SUB02_0000"
-                         select x;
-            foreach (var name in sQuery)
-            {
-                if (name.InitialCtr == null || name.changeCtr == null) { lMessage.Text = "設定檔內容有缺無法更新"; break; }
-                comm.Del_DBTable(name.InitialCtr);
-                comm.Insert_SaveDB(name.Table, name.changeCtr);
-            }
-            lMessage.Text = "供應商 - 更新成功\n-完成豪秒數 : " + comm.GET_Run_Timer + "\n-共" + comm.GET_Rows_Coumt + "筆";
+            //執行excel中的語法。
+            ExcelQueryByUpdateData("SUB02_0000");
         }
 
         /// <summary>
@@ -129,19 +96,8 @@ namespace SCM_Convert
         /// <param name="e"></param>
         private void Btn_ProData_Click(object sender, EventArgs e)
         {
-            //設定EXCEL
-            var exc = new ExcelQueryFactory(sPath + "\\setting.xlsx");
-
-            var sQuery = from x in exc.Worksheet<Setting>("setting")
-                         where x.Table == "SUB01_0000"
-                         select x;
-            foreach (var name in sQuery)
-            {
-                if (name.InitialCtr == null || name.changeCtr == null) { lMessage.Text = "設定檔內容有缺無法更新"; break; }
-                comm.Del_DBTable(name.InitialCtr);
-                comm.Insert_SaveDB(name.Table, name.changeCtr);
-            }
-            lMessage.Text = "料件檔 - 更新成功\n-完成豪秒數 : " + comm.GET_Run_Timer + "\n-共" + comm.GET_Rows_Coumt + "筆";
+            //執行excel中的語法。
+            ExcelQueryByUpdateData("SUB01_0000");
         }
 
         /// <summary>
@@ -153,6 +109,28 @@ namespace SCM_Convert
         {
             //打開設定檔案
             Process.Start(sPath + "\\setting.xlsx");
+        }
+
+        /// <summary>
+        /// 指定excel table 名稱，
+        /// 執行EXCEL 裡面的SQL 語法。
+        /// </summary>
+        /// <param name="sTable"></param>
+        private void ExcelQueryByUpdateData(string sTable)
+        {
+            //設定EXCEL
+            var exc = new ExcelQueryFactory(sPath + "\\setting.xlsx");
+
+            var sQuery = from x in exc.Worksheet<Setting>("setting")
+                         where x.Table == sTable
+                         select x;
+            foreach (var name in sQuery)
+            {
+                if (name.InitialCtr == null || name.changeCtr == null) { lMessage.Text = "設定檔內容有缺無法更新"; break; }
+                comm.Del_DBTable(name.InitialCtr);
+                comm.Insert_SaveDB(name.Table, name.changeCtr);
+            }
+            lMessage.Text = "料件檔 - 更新成功\n-完成豪秒數 : " + comm.GET_Run_Timer + "\n-共" + comm.GET_Rows_Coumt + "筆";
         }
     }
 }

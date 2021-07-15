@@ -37,15 +37,16 @@
             this.btn_Comm = new System.Windows.Forms.Button();
             this.Btn_setting = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // Btn_Sup
             // 
             this.Btn_Sup.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.Btn_Sup.Location = new System.Drawing.Point(111, 11);
+            this.Btn_Sup.Location = new System.Drawing.Point(120, 11);
             this.Btn_Sup.Margin = new System.Windows.Forms.Padding(2);
             this.Btn_Sup.Name = "Btn_Sup";
-            this.Btn_Sup.Size = new System.Drawing.Size(79, 54);
+            this.Btn_Sup.Size = new System.Drawing.Size(97, 42);
             this.Btn_Sup.TabIndex = 0;
             this.Btn_Sup.Text = "供應商";
             this.Btn_Sup.UseVisualStyleBackColor = true;
@@ -54,11 +55,12 @@
             // Btn_SigleHead
             // 
             this.Btn_SigleHead.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.Btn_SigleHead.Location = new System.Drawing.Point(11, 11);
+            this.Btn_SigleHead.Location = new System.Drawing.Point(15, 11);
             this.Btn_SigleHead.Margin = new System.Windows.Forms.Padding(2);
             this.Btn_SigleHead.Name = "Btn_SigleHead";
-            this.Btn_SigleHead.Size = new System.Drawing.Size(79, 54);
+            this.Btn_SigleHead.Size = new System.Drawing.Size(95, 42);
             this.Btn_SigleHead.TabIndex = 1;
+            this.Btn_SigleHead.Tag = "SUT01_0000";
             this.Btn_SigleHead.Text = "採購單頭";
             this.Btn_SigleHead.UseVisualStyleBackColor = true;
             this.Btn_SigleHead.Click += new System.EventHandler(this.Btn_SigleHead_Click);
@@ -66,10 +68,10 @@
             // Btn_Details
             // 
             this.Btn_Details.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.Btn_Details.Location = new System.Drawing.Point(11, 78);
+            this.Btn_Details.Location = new System.Drawing.Point(15, 68);
             this.Btn_Details.Margin = new System.Windows.Forms.Padding(2);
             this.Btn_Details.Name = "Btn_Details";
-            this.Btn_Details.Size = new System.Drawing.Size(79, 54);
+            this.Btn_Details.Size = new System.Drawing.Size(95, 42);
             this.Btn_Details.TabIndex = 2;
             this.Btn_Details.Text = "採購明細";
             this.Btn_Details.UseVisualStyleBackColor = true;
@@ -78,10 +80,10 @@
             // Btn_ProData
             // 
             this.Btn_ProData.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.Btn_ProData.Location = new System.Drawing.Point(112, 78);
+            this.Btn_ProData.Location = new System.Drawing.Point(120, 68);
             this.Btn_ProData.Margin = new System.Windows.Forms.Padding(2);
             this.Btn_ProData.Name = "Btn_ProData";
-            this.Btn_ProData.Size = new System.Drawing.Size(79, 54);
+            this.Btn_ProData.Size = new System.Drawing.Size(97, 42);
             this.Btn_ProData.TabIndex = 3;
             this.Btn_ProData.Text = "料件檔";
             this.Btn_ProData.UseVisualStyleBackColor = true;
@@ -89,18 +91,17 @@
             // 
             // lMessage
             // 
-            this.lMessage.AutoSize = true;
             this.lMessage.BackColor = System.Drawing.Color.LightGray;
             this.lMessage.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.lMessage.Location = new System.Drawing.Point(28, 159);
+            this.lMessage.Location = new System.Drawing.Point(12, 9);
             this.lMessage.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lMessage.Name = "lMessage";
-            this.lMessage.Size = new System.Drawing.Size(0, 21);
+            this.lMessage.Size = new System.Drawing.Size(190, 73);
             this.lMessage.TabIndex = 4;
             // 
             // btn_Comm
             // 
-            this.btn_Comm.Location = new System.Drawing.Point(105, 246);
+            this.btn_Comm.Location = new System.Drawing.Point(117, 225);
             this.btn_Comm.Margin = new System.Windows.Forms.Padding(2);
             this.btn_Comm.Name = "btn_Comm";
             this.btn_Comm.Size = new System.Drawing.Size(63, 31);
@@ -111,7 +112,7 @@
             // 
             // Btn_setting
             // 
-            this.Btn_setting.Location = new System.Drawing.Point(38, 246);
+            this.Btn_setting.Location = new System.Drawing.Point(50, 225);
             this.Btn_setting.Margin = new System.Windows.Forms.Padding(2);
             this.Btn_setting.Name = "Btn_setting";
             this.Btn_setting.Size = new System.Drawing.Size(63, 31);
@@ -123,19 +124,19 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.LightGray;
-            this.panel1.Location = new System.Drawing.Point(11, 146);
+            this.panel1.Controls.Add(this.lMessage);
+            this.panel1.Location = new System.Drawing.Point(11, 125);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(180, 89);
+            this.panel1.Size = new System.Drawing.Size(212, 89);
             this.panel1.TabIndex = 7;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(203, 284);
+            this.ClientSize = new System.Drawing.Size(235, 264);
             this.Controls.Add(this.Btn_setting);
             this.Controls.Add(this.btn_Comm);
-            this.Controls.Add(this.lMessage);
             this.Controls.Add(this.Btn_ProData);
             this.Controls.Add(this.Btn_Details);
             this.Controls.Add(this.Btn_SigleHead);
@@ -148,8 +149,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "轉檔程式";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
